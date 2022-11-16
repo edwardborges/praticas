@@ -3,10 +3,11 @@ resource "aws_security_group" "acesso-ssh" {
   description = "acesso-ssh"
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["201.17.0.0/16"]
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+    #variavel de secutity tipo list
+    cidr_blocks = var.cdirs_acesso_remote
   }
 
   tags = {
@@ -20,10 +21,11 @@ resource "aws_security_group" "acesso-ssh-us-west-1" {
   description = "acesso-ssh"
 
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["201.17.0.0/16"]
+    from_port = 22
+    to_port   = 22
+    protocol  = "tcp"
+    #variavel de secutity tipo list
+    cidr_blocks = var.cdirs_acesso_remote
   }
 
   tags = {

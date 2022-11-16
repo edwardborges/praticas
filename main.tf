@@ -21,7 +21,7 @@ resource "aws_instance" "dev" {
   count         = 3
   ami           = "ami-017fecd1353bcc96e"
   instance_type = "t2.micro"
-  key_name      = "testeiac"
+  key_name      = var.key_name
 
   tags = {
     Name = "dev${count.index}"
@@ -44,28 +44,41 @@ resource "aws_instance" "dev4" { #instancia que vincula bucket edwardlabs-dev4
 }
 
 resource "aws_instance" "dev5" {
-  ami           = "ami-017fecd1353bcc96e"
+  provider      = "aws.us-west-1"
+  ami           = var.amis["us-west-1"]
   instance_type = "t2.micro"
-  key_name      = "testeiac"
+  key_name      = var.key_name2
 
   tags = {
     Name = "dev5"
   }
-  vpc_security_group_ids = ["${aws_security_group.acesso-ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.acesso-ssh-us-west-1.id}"]
 }
 
 resource "aws_instance" "dev6" {
-  provider      = "aws.us-west-1" #recurso para determinar a região diferente
-  ami           = "ami-017c001a88dd93847"
+  provider      = "aws.us-west-1"       #recurso para determinar a região diferente
+  ami           = var.amis["us-west-1"] #variavel tipo map
   instance_type = "t2.micro"
-  key_name      = "testeiac2"
+  key_name      = var.key_name2
 
   tags = {
     Name = "dev6"
   }
   vpc_security_group_ids = ["${aws_security_group.acesso-ssh-us-west-1.id}"]
-  depends_on = [aws_dynamodb_table.dynamodb-homologacao]
+  depends_on             = [aws_dynamodb_table.dynamodb-homologacao]
 }
+
+resource "aws_instance" "dev7" {
+  provider      = "aws.us-west-1"
+  ami           = var.amis["us-west-1"]
+  instance_type = "t2.micro"
+  key_name      = var.key_name2
+  tags = {
+    Name = "dev7"
+  }
+  vpc_security_group_ids = ["${aws_security_group.acesso-ssh-us-west-1.id}"]
+}
+
 
 #database dynamoDBtables
 resource "aws_dynamodb_table" "dynamodb-homologacao" {
